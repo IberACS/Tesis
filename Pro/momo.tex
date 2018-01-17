@@ -1,0 +1,424 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} 
+\usepackage{graphicx}
+\usepackage{inputenc}
+\usepackage{cite}
+\usepackage{multirow}
+\hyphenation{Protocolo}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\elalumno}{``Iber Alberto Conde S\'anchez''}
+\begin{document}
+\begin{center} 
+
+{\Large \textbf{TECNOL\'OGICO DE ESTUDIOS SUPERIOR DE TIANGUISTENCO}}\\
+\vspace{1cm}
+{\large \textbf{Ingenier\'ia en Sistemas Computacionales}}\\
+\vspace{1cm}
+PROTOCOLO DE TESIS\\
+DE LICENCIATURA \vspace{2cm} \\
+\begin{tabular}{p{4cm}p{8cm}}
+Nombre del alumno: & ``Iber Alberto Conde S\'anchez''\\
+Tutor(a) de tesis: & Mtra. ``Karol Baca L\'opez'' \\
+Tutor(a) de tesis: & Dr. ``Jes\'us Espinal Enr\'iquez'' \\
+T\'\i tulo de la tesis: &
+``{\em ESTRUCTURA DE DATOS EN MAPEO DE DATOS CL\'ICOS EN C\'ANCER DE MAMA  DE Genomic Data Commons Data Portal.}'' \\
+\end{tabular}
+\end{center}
+
+\begin{abstract}
+El c\'ancer de mama es la neoplasia m\'as frecuente y con mayor tasa de mortalidad entre las mujeres en M\'exico. En este trabajo se revisan datos cl\'inicos p\'ublicos de C\'ancer de Mama del portal Genomic Data Commons (GDC) en el que es posible compartir informaci\'on sobre estudios gen\'omicos sobre el c\'ancer en apoyo de la medicina de precisi\'on. Esto consiste en una construcci\'on de una  aplicaci\'on para la presentaci\'on de datos cl\'inicos, bioespec\'ificos y pequeños vol\'umenes de datos moleculares, con herramientas espec\'ificas y seleccionadas para mayor uso de los formatos descargados del GDC como Gestor de Base de Datos (MongoDB) y lenguajes de programaci\'on como Java (NetBeans). Se hace la gesti\'on de Base de Datos para la conexi\'on con el lenguaje de programaci\'on y as\'i obtener nuestra propio Software para facilitar el uso de Datos al Investigador.
+
+Key words: Mapeo de Datos Cl\'inicos, C\'ancer de Mama , GDC, MongoDB, Java.
+\end{abstract}
+
+\renewcommand{\contentsname}{\'Indice}
+\tableofcontents
+\newpage
+
+
+\section{Introducción} 
+
+El tema que se propone de tesis surge de la necesidad de facilitar y optimizar flujos de trabajo para estudios gen\'omicos de c\'ancer. Y  en particular, del c\'ancer de mama que es la primera causa de muerte por neoplasia maligna en la mujer. La incidencia aumenta con la edad; sin embargo, la relaci\'on entre la edad y la supervivencia de las pacientes con c\'ancer de mama no est\'a bien definida. Se observa que las mujeres j\'ovenes con c\'ancer de mama tienen patrones biol\'ogicos de comportamiento m\'as agresivos. 
+
+En el Instituto Nacional de Medicina Gen\'omica, el Mapeo de Datos Cl\'inicos involucra manejo de informaci\'on y Datos Personales de un paciente, que se integra dentro de todo tipo de establecimiento para la atenci\'on m\'edica, ya sea p\'ublico, social o privado, el cual, consta de documentos escritos, gr\'aficos, imagen l\'ogicos, electr\'onicos, y de cualquier otra \'indole, en los cuales, el personal de salud deber\'a hacer los registros, anotaciones, en su caso, constancias y certificaciones correspondientes a su intervenci\'on en la atenci\'on m\'edica del paciente, con apego a las disposiciones jur\'idicas aplicables. 
+
+Se utilizan en gran medida para documentar diagn\'osticos y procedimientos. Son m\'as de 150 los sistemas de codificaci\'on conocidos y sus modificaciones cl\'inicas. Esto requiere que el investigador tenga la facilidad de obtener informaci\'on de los Datos Cl\'inicos de C\'ancer de Mama (disponibles en TCGA-BRCA), que se encuentran en el portal: Genomic Data Commons (GDC, por sus siglas en ingl\'es) del NCI (National Cancer Institute) \cite{cerami2012cbio}. Ya que los investigadores del \'Area de Ciencias Gen\'omicas que trabajan con investigaciones que requieran datos cl\'inicos, usan archivos de secuencia sin procesar, normalmente almacenados como BAM o FASTQ, constituyen la mayor parte de los datos. 
+
+El tama\~no de un solo archivo puede variar mucho, dependiendo del an\'alisis espec\'ifico; Sin embargo, algunos de los archivos completos del genoma BAM en el Atlas del genoma del c\'ancer (TCGA) alcanzan tama\~nos de 200-300 GB. En tales casos, una llamada de descarga de datos en alto rendimiento es esencial. Para esto las recomendaciones del sistema para utilizar la herramienta de transferencia de datos GDC son especificadas para tener los procesos con mayor fluidez en tr\'afico de datos, rendimiento en espec\'ifico que debe contar para su descarga y almacenamiento de datos. 
+
+Con tal fin, se propone implementar un Software que transforme archivos con diferentes formatos del GDC Portal, en un modo para que el usuario tenga la facilidad de manejo de datos. As\'i, las consultas sean m\'as eficientes para el usuario en cuanto a tiempo y esfuerzo.
+
+\subsection{Plantiamiento Del Problema}
+
+El c\'ancer de mama ha tenido un desarrollo ascendente en las \'ultimas d\'ecadas, as\'i como el incremento del n\'umero de muertes por esta. Esta situaci\'on se vincula con los estilos de vida, as\'i como con transiciones demogr\'aficas y epidemiol\'ogicas, procesos que han favorecido el aumento en la esperanza de vida de la poblaci\'on y por ende el desarrollo de enfermedades cr\'onico-degenerativas [1,2]. El c\'ancer se encuentra entre los padecimientos que destacan en el panorama epidemiol\'ogico mundial, cuya tasa de incidencia y mortalidad varía en relaci\'on con el \'area geogr\'afica y las condiciones de vida [3,4].
+
+En las investigaciones que realizan las personas en distintos sectores de investigaci\'on requieren Datos Cl\'inicos y suelen recurrir al portal Genomic Data Commons (GDC, por sus siglas en ingl\'es) del NCI (Instituto Nacional de C\'ancer) en el que est\'a unificado la informaci\'on de numerosos estudios y permite compartir datos entre los estudios gen\'omicos sobre el c\'ancer en apoyo de la medicina de precisi\'on.
+
+El investigador requiere tener la facilidad de obtener la informaci\'on de los Datos Cl\'inicos en C\'ancer de Mama (TCGA-BRCA), que proporciona a la comunidad de investigaci\'on sobre el c\'ancer un repositorio unificado de datos. Se proporcionan herramientas para guiar las presentaciones de datos de los investigadores e instituciones. Apoya varios programas del genoma del C\'ancer en el centro del NCI para la gen\'omica del c\'ancer (CCG) y en nuestra especificaci\'on C\'ancer de Mama (TCGA-BRCA), incluyendo el atlas del genoma del c\'ancer (TCGA). Tambi\'en proporciona herramientas para guiar la presentaci\'on de datos, incluyendo el Portal de Presentaci\'on de Datos de GDC, una herramienta basada en la web para la presentaci\'on de datos cl\'inicos, bio-espec\'ificos y peque\~nos vol\'umenes de datos moleculares, as\'i como la herramienta de Transferencia de Datos de GDC. Tambi\'en est\'a disponible una API GDC segura para las presentaciones de datos por lotes.
+
+A todo esto en lo particular para el investigador que trabaje en este portal, \'esta informaci\'on tiene una problemática peculiar aparte de las recomendaciones que el portal ofrece, en relaci\'on a la visualizaci\'on de los datos, en el caso de los usuarios hay m\'etodos complejos con diferentes aplicaciones, aparte de tener en espec\'ifico el manejo de los lenguajes de programaci\'on, teniendo a consideraci\'on la especificaci\'on de trabajo y contando con las especificaciones requeridas, es complejo llegar y especificar los datos requeridos en el cual se basa el Mapeo de Datos Cl\'inicos en C\'ancer de Mama, para esto; las consultas de los usuarios de datos determinados que necesite espec\'ificamente, no re\'une las cualidades f\'aciles de uso y comparativa para seleccionar el muestreo cl\'inico, en una visualizaci\'on compresible al usuario que necesite, a todos los factores a evaluar un dato requerido. En el cual los datos que requieren los usuarios por lo regular, son diagn\'osticos y procedimientos, que est\'an en un sistema codificado que clasifican y muestran un historial cl\'inico de una poblaci\'on asignada y encontrada en Mapeo de Datos Cl\'inicos en C\'ancer de Mama de especializaci\'on que se trabaja en el \'area de Bioinform\'atica Computacional o en otra \'area del Instituto que lo requiera.
+
+\subsection{Justificación}
+
+En este proyecto se busca desarrollar un modelo de Software, de mejora para ser aplicado en la Biolog\'ia Computacional y otras \'areas que lo requieran, a fin de mejorar la capacidad de obtenci\'on de datos y metodol\'ogica-mente el proceso actual que existe en el portal GDC reducir el tiempo y costo del usuario.
+El desarrollo permitir\'a:
+
+\begin{itemize}
+
+\item No descargar datos cada vez que requiera hacer una consulta. 
+\item Agilizar el tiempo de b\'usqueda de datos.
+\item La agilidad de visualizar datos espec\'ificos sin ning\'un lenguaje de programaci\'on u otro tipo de aplicaciones.
+\item No tener que aplicar c\'odigos para visualizar y/o descarga de datos, o en otro caso p\'erdida de la informaci\'on.
+
+
+\end{itemize}
+
+
+\subsection{Delimitación}
+En el a\~no actual los investigadores tienen un problema para la visualizaci\'on de forma r\'apida y segura de ver Mapeo de Datos Cl\'inicos de C\'ancer. Las descargas en la Web a veces pueden tardar dependiendo la velocidad del internet que est\'e a su disposici\'on. Lo que no parece un problema importante pero en ocasiones tiende a detenerse la descarga o tiene fallos en los servidores de GDC y el tiempo que tarden en cargar los datos y en el lenguaje de programaci\'on que est\'en utilizando. La aplicaci\'on tambi\'en tiene sus limitaciones, porque la Base de Datos se va a alojar en el servidor del INMEGEN y no podr\'a mostrarse en la WAM, As\'i, tambi\'en la integridad de los datos se resguarda de un mal uso.
+La aplicaci\'on se limita al tratado de C\'ancer de Mama, en el software tiene la posibilidad de ampliarse hacia los dem\'as tipos de c\'ancer en el cual el uso se podr\'a hacer m\'as frecuente en los investigadores.
+Los recursos son suficientes para operar la aplicaci\'on ya que el INMEGEN cuenta ya con la estructura requerida para el desarrollo de una sistematizaci\'on.
+
+ 
+\subsection{Hip\'otesis}
+
+\begin{itemize}
+
+
+\item La conexi\'on de la Base de Datos en MongoDB a Java (NetBeans) para la habilitaci\'on de una aplicaci\'on gr\'afica de visualizaci\'on y obtenci\'on de datos para el usuario permitir\'a un mejor rendimiento en el tratamiento y mapeo de la informaci\'on de datos cl\'inico de mama.
+
+\end{itemize}
+ 
+\subsection{Objetovos (General Y Espec\'ificos)}
+
+\subsubsection{Objetivo General}
+
+Implementar un Software que trabaje con datos del GDC, en un modo para que el usuario tenga la facilidad de manejo de datos. As\'i, las consultas de datos sea m\'as eficiente para el usuario.
+
+\subsubsection{Objetivos Espec\'ificos}
+
+\begin{enumerate}
+\item Buscar la forma de descarga más confiable de TCGA-BRCA que se encuentran en el GDC.
+
+\begin{itemize}
+
+\item Analizar el formato si es factible de descargar .xlsx.  
+\item Analizar el formato si es factible de descargar .xml.  
+\item Analizar el formato si es factible de descargar .json.
+\item Diferenciar los formatos para su uso.
+
+\end{itemize}
+
+\item Analizar los Gestores de Base de Datos No Relacional m\'as conveniente para el uso del formato escogido.
+
+\item Analizar los Lenguajes de Programaci\'on para realizar la aplicaci\'on.
+
+\item Implementar la API para facilitar al usuario el uso de Datos: Mapeo de Datos Cl\'inicos en C\'ancer de Mama.
+
+\end{enumerate}
+
+
+
+\subsection{Aportaciones De La Tesis}
+
+Una problem\'atica en cuanto a la elaboraci\'on de una estructura de Datos Cl\'inicos para consultar y lograr una buena visualizaci\'on; buscar la manera de descarga, lenguajes de programaci\'on para compilaci\'on, cosas cotidianas que hacemos para recabar datos en actividades en el \'area de trabajo, etc. En nuestro caso con la herramienta de trabajo que utilizan los investigadores que son datos de secuencia sin procesar, que deben leer y expresarlos para un buen entendimiento al trabajar con ellos. En el Mapeo de Datos Cl\'inicos, los datos son tan importantes e indispensables para una investigaci\'on y seguimiento de pacientes que se trataron en TCGA-BRCA. El logro de hacer una estructura de datos amigable que se encuentran en el portal Genomic Data Commons (GDC), reducir\'a el tiempo de descarga como de b\'usqueda de los datos, ya que al tener el Software en una plataforma podr\'a observar que al ver los datos ya est\'an curados y se encuentran en mayor parte de su totalidad sin procesar. As\'i, los datos est\'an en una forma factible para su descarga o bien nada m\'as para consulta o comparaci\'on en un \'ambito que se pueda laborar con los datos \cite{cerami2012cbio}. 
+
+
+
+\subsection{Organización De La Tesis}
+
+Se muertra como paulatinemente se va a ir trabajando las actividades marcadas.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=13cm]{conogra01.png}
+\caption{Cronograma de actividades.}
+\end{figure}
+
+
+
+\section{Estado Del Arte (Antecedentes)}
+
+
+\subsection{Estado Actual Del Cáncer De Mama}
+El C\'ancer de Mama (C.M.) es un problema de salud p\'ublica a nivel mundial. Su alta frecuencia, las implicaciones biol\'ogicas, el impacto emotivo y econ\'omico que acarrea en la paciente y sus familiares, hacen de esta enfermedad uno de los problemas de salud m\'as discutidos a nivel m\'edico-familiar y en la sociedad en la actualidad. 
+El c\'ancer de mama es un padecimiento cr\'onico, heterog\'eneo, y con una evoluci\'on irregular, tan lenta que permite a un 10\% vivir más de 12 a\~nos a enfermas inoperables que resisten todo tipo de tratamiento y por otro lado, mujeres con tumores tempranos menores de 1 cm presentan enfermedad diseminada en un 10-20\% de los casos\cite{torres2011}. 
+
+El C\'ancer de Mama es la neoplasia m\'as frecuente en las mujeres a nivel mundial aunque puede presentarse en hombres, la proporci\'on es de 1 caso por 150 mujeres \cite{breast2004}. De acuerdo al informe de la International Agency for Research on Cancer (IARC), en el a\~no 2008, se diagnosticar\'on 1,380 300 nuevos casos, representando el 23\% de los c\'anceres en las mujeres. El n\'umero de casos fue casi igual en los pa\'ises desarrollados que en las que viv\'ian en pa\'ises en desarrollo, 692,000 en los primeros y de 691,000 en los segundos. Sin embargo, es de hacer notar que la poblaci\'on en los primeros pa\'ises se calcul\'o en 1 bill\'on y en los segundos de 6 billones, de acuerdo a cifras del Banco Mundial en el 2006\cite{leal2013}. 
+El riesgo de una mujer mexicana de desarrollar un C.M., durante su vida es de 2.9\% comparado con el 4.27\% para Latinoam\'erica y de 7.14\% para mujeres de pa\'ises desarrollados \cite{moner2006,kotonya1998}.
+
+\subsection{Integración Semántica Y Estandarización De Datos Clínicos Basada En Arquetipos}
+
+La informaci\'on de  Mapeo de Datos Cl\'inicos es un documento m\'edico-legal que surge del paciente, donde se recoge la informaci\'on necesaria para la correcta atenci\'on y muestra historia cl\'inica que construye un documento principal en un sistema de informaci\'on sanitario, imprescindible en su vertiente asistencial, administrativa, y adem\'as constituye el registro completo de la atenci\'on prestada al paciente durante su enfermedad, de lo que se deriva su trascendencia como documento legal. Adem\'as de los datos cl\'inicos que tengan relaci\'on con la situaci\'on actual del paciente, incorpora los datos de sus antecedentes personales y familiares, sus h\'abitos y todo aquello vinculado con su salud biopsicosocial. Tambi\'en incluye el proceso evolutivo, tratamiento y recuperaci\'on. La historia cl\'inica no se limita a ser una narraci\'on o exposici\'on de hechos simplemente, sino que incluye en una secci\'on aparte los juicios, documentos, procedimientos, informaciones y consentimiento informado. El consentimiento informado del paciente, que se origina en el principio de autonom\'ia, es un documento donde el paciente deja registrado y firmado su reconocimiento y aceptaci\'on sobre su situaci\'on de salud y/o enfermedad y participa en la toma de decisiones del profesional de la salud.\cite{leal2013}
+
+\section{Marco Teórico}
+
+Se pretende desarrollar un software que pueda ser aplicado como una herramienta \'util para la investigaci\'on en Biolog\'ia Inform\'atica o en otras especializaciones que lo necesiten. Es necesario tener en cuenta que, en todo desarrollo de sistemas de software es de suma importancia definir una metodolog\'ia. Esta permite a los desarrolladores seguir alguna especificaci\'n en cada una de las etapas del desarrollo del sistema, desde los requerimientos iniciales hasta las pruebas finales, que haga que el software sea coherente y adem\'as formal.
+Abordaremos los conceptos computacionales tomados en cuenta durante todo el proceso de elaboraci\'on del software de este proyecto. Los conceptos que a continuaci\'on trataremos son:
+
+\begin{itemize}
+\item La ingenier\'ia de software.
+
+\item Metodolog\'ia Orientada a Objetos.
+
+\item Arquitectura cliente-servidor.
+
+\item Modelo no relacional (NoSQL).
+\end{itemize}
+
+Las cuales dar\'an la pauta sobre medicina del cual se basan los datos cl\'inico, gen\'etica de c\'ancer de mama que padecen las personas, los est\'andares utilizados tanto para el an\'alisis, almacenamiento, dise\~no, implementaci\'on, pruebas y mantenimiento de la aplicaci\'on; la ingenier\'ia examinar\'a la aplicaci\'on existente para actualizarla y mejorarla; las bases de datos permitir\'an el manejo y manipulaci\'on de la gran cantidad de datos que existan; MongoDB, NetBeans y JQuery ayudar\'an en la automatizaci\'on de ciertas tareas.
+
+\subsection{Ingeniería De Software}
+
+El t\'ermino ``Ingenier\'ia de Software" fue introducido por primera vez a finales de 1960 en una conferencia destinada a su discusi\'on, la cual fue posteriormente llamada ``crisis del software". Esta crisis de software fue el resultado directo de la introducci\'on del hardware de la tercera generaci\'on computacional \cite{kotonya1998}.
+Para tener una idea clara de lo que es la ingenier\'ia de software vamos a definirlo seg\'un varios autores:
+\begin{enumerate}
+
+\item {La aplicaci\'on de un enfoque sistem\'atico, disciplinado y cuantificable hacia el desarrollo, operaci\'on y mantenimiento del software; es decir, la aplicaci\'on de ingenier\'ia al software.}
+	
+\item {Es una disciplina o \'area de la Inform\'atica o Ciencias de la Computaci\'on, que ofrece m\'etodos y t\'ecnicas para desarrollar y mantener software de calidad que resuelven problemas de todo tipo}\cite{pressman1998}.
+\end{enumerate}
+
+
+El factor com\'un en estas definiciones es que la ingenier\'ia de software se enfoca a los sistemas computacionales, utilizando los principios de la ingenier\'ia para el desarrollo de estos sistemas, y est\'a compuesta por aspectos t\'ecnicos y no t\'ecnicos.
+La ingenier\'ia de Software no es una disciplina que s\'olo deba aplicarse en proyectos de ciertas \'areas, sino que tambi\'en trata con \'areas diversas dentro de las ciencias computacionales, tales como: construcci\'on de compiladores, sistemas operativos, o desarrollos empresariales como es el caso de \'esta aplicaci\'on de software. La Ingenier\'ia de Software abarca todas las fases del ciclo de vida en el desarrollo de cualquier sistema de informaci\'on aplicables a \'areas tales como investigaci\'on cient\'ifica, medicina, log\'istica, y para este caso en particulares.
+En un nivel t\'ecnico la ingenier\'ia de software empieza con una serie de tareas de modelado que llevan a una especificaci\'on completa de los requisitos y a una representaci\'on del dise\~no general del software a construir. Con los a\~nos se han propuesto muchos m\'etodos para el modelado del an\'alisis. Sin embargo, ahora dos tendencias dominan el modelado del an\'alisis, el an\'alisis estructurado y el an\'alisis orientado a objetos.
+
+
+\subsection{Metodología Orientada A Objetos}
+
+Vivimos en un mundo de objetos. Estos objetos existen el a naturaleza, en entidades y en los productos que usamos. Los objetos pueden ser clasificados, descritos, organizados, combinados, manipulados y creados. Es por esto que se propuso un an\'alisis y desarrollo orientado a objetos, que nos permita aprovechar las caracter\'isticas, individualidad y facilidad de manipulaci\'on que nos ofrecen los objetos.
+\\
+\\
+Es as\'i que al estar hablando de objetos es importante describir las ideas fundamentales impl\'icitas en la tecnolog\'ia orientada a objetos incluyen \cite{schneider1992}:
+
+\begin{itemize}
+\item \emph{Objetos.} Un objeto es cualquier cosa, real o abstracta, acerca de la cual almacenamos datos y aquellos m\'etodos que los manipulan.
+
+\item \emph{Clases.} Una clase es la implementaci\'on de un tipo de objeto. Espec\'ifica la estructura de datos y los m\'etodos operacionales permitidos que se aplican a cada uno de sus objetos.
+
+\item \emph{M\'etodos.} Espec\'ifica la manera en la cual los datos de un objeto son manipulados. Los m\'etodos en un tipo de objeto hacen solamente referencia a la estructura de datos de ese tipo de objeto. No deben de accesar directamente a la estructura de datos de otro objeto.
+
+\item \emph{Peticiones.} Una petici\'on solicita una operaci\'in espec\'ifica debe ser invocada usando uno o varios objetos como par\'ametros.
+\end{itemize}
+
+Una vez que se han mencionado las ideas fundamentales del modelo orientado a objetos, es importante saber que existen tres conceptos importantes que diferencian el enfoque OO de la ingenier\'ia del software convencional:
+
+\begin{enumerate}
+
+
+\item \emph{Encapsulamiento} empaqueta los datos y las operaciones que manejan estos datos en un objeto simple con denominaci\'on.
+
+\item \emph{Herencia} permite que los atributos y operaciones de una clase sean heredados por todas las subclases y objetos que se instancian de ella.
+
+\item \emph{Polimorfismo} permite que una cantidad de operaciones diferentes posean el mismo nombre, reduciendo la cantidad de l\'ineas de c\'odigo necesarias para implementar un sistema y facilita los cambios en caso que se produzcan.
+
+\end{enumerate}
+
+
+Como sabemos, los objetos est\'an compuestos por atributos los cuales describen un objeto; que en esencia, son los que definen al objeto, a la vez que clarifican lo que se representa con el objeto en el contexto del espacio del problema.
+\\
+\\
+Para poder manipular los atributos de los objetos existen los algoritmos que los procesan, los cuales son llamados operaciones, m\'etodos o servicios y pueden ser vistos como m\'odulos en un sentido convencional. Cada una de las operaciones encapsuladas por un objeto proporciona una representaci\'on de uno de los comportamientos del objeto. Las operaciones definen el comportamiento de un objeto y cambian, de alguna manera, los atributos de dicho objeto.
+\\
+\\
+No s\'olo se requiere conocer la forma en la que los objetos interact\'uan entre s\'i, sino tambi\'en es necesario saber que el proceso se mueve a trav\'es de una espiral evolutiva, que comienza con la comunicaci\'on con el usuario. Es aqu\'i donde se define el dominio del problema y se identifican las clases b\'asicas del problema.
+\\
+\\
+Esta es la metodolog\'ia que se emplear\'a para el desarrollo de la aplicaci\'on. El an\'alisis y dise\~no orientado a objetos tiene dos aspectos. Al primer aspecto le conciernen los tipos de objeto, clases, relaciones entre los objetos y la herencia, y se conoce como el An\'alisis de Estructura de Objetos (AEO) y Diseño de Estructura de Objetos (DEO). Al otro aspecto le concierne el comportamiento de los objetos y que les pasa con el tiempo, y se conoce como el An\'alisis del Comportamiento de Objetos (ACO) y Diseño del Comportamiento de Objetos (DCO)\cite{schneider1992}.
+
+\subsection{Arquitectura Cliente-Servidor}
+
+El t\'ermino cliente-servidor se refiere a una arquitectura o divisi\'on l\'ogica de responsabilidades; donde el cliente (parte frontal o aplicaciones para el usuario o interfaces) es la aplicaci\'on que se ejecuta sobre el DBMS, aplicaciones escritas por el usuario y aplicaciones integradas; y el servidor (parte dorsal o servicios de fondo) es el DBMS y soporta la definici\'on, manipulaci\'on, seguridad e integridad de los datos entre otros \cite{crnkovic2001}.
+El uso de la arquitectura cliente-servidor brinda ciertas ventajas como son: o El servidor puede ser una m\'aquina construida a la medida y por lo tanto proporcionar un mejor desempe\~no, o maneja el procesamiento paralelo normal, es decir el procesamiento del servidor y del cliente se est\'an haciendo en paralelo, por lo que el tiempo de respuesta y velocidad real de trasporte mejoran, o varias m\'aquinas cliente pueden acceder a la misma m\'aquina servidor y por lo tanto una sola base de datos puede ser compartida entre varios sistemas clientes distintos.
+
+\subsection{Modelo No Relacional (Nosql)}
+
+En un mundo de constantes cambios a nivel de sistemas, es necesario volver a pensar acerca de los paradigmas que manejan la industria. Necesitamos ajustar nuestras herramientas a las necesidades reales que tenemos hoy en d\'ia con el fin de tener sistemas a la altura de nuestros requerimientos.
+\\
+\\
+Las bases de datos relacionales requieren que los esquemas ser definidos antes de poder a\~nadir datos. Por ejemplo, es posible que desee almacenar datos sobre sus clientes, tales como n\'umeros de tel\'efono, nombre y apellido, direcci\'on, ciudad y estado - una base de datos SQL necesita saber qu\'e va a almacenar por adelantado.
+\\
+\\
+Esto encaja mal con los enfoques de desarrollo \'agil, ya que cada vez que se complete nuevas caracter\'isticas, el esquema de la base de datos a menudo tiene que cambiar. As\'i que si usted decide, unas pocas iteraciones en el desarrollo, que desea guardar los elementos favoritos de los clientes, adem\'as de sus direcciones y tel\'efonos, tendr\'a que a\~nadir que la columna de la base de datos, y luego migrar toda la base de datos para el nuevo esquema.
+\\
+\\
+Si la base de datos es grande, este es un proceso muy lento que implica un tiempo muerto significativo. Si se cambian con frecuencia los datos de sus tiendas de aplicaciones porque usted est\'a iterando r\'apidamente este tiempo de inactividad tambi\'en puede ser frecuente. Tampoco hay manera, utilizando una base de datos relacional, para abordar eficazmente los datos que es completamente desestructurada o conozca con antelaci\'on.
+\\
+\\
+Bases de datos NoSQL est\'an construidos para permitir la introducci\'on de datos sin un esquema predefinido. Eso hace que sea f\'acil hacer cambios significativos de la aplicaci\'on en tiempo real, sin tener que preocuparse por las interrupciones del servicio lo que significa que el desarrollo es m\'as r\'apido, integraci\'on de c\'odigo es m\'as fiable, y se necesita menos tiempo del administrador de base de datos. Generalmente, los desarrolladores han tenido que a\~adir el c\'odigo de la zona de aplicaci\'on para aplicar los controles de calidad de datos, tales como ordenar la presencia de campos espec\'ificos, tipos de datos o valores permisibles.
+\\
+\\
+Las bases de datos NoSQL m\'as sofisticadas permiten las reglas de validaci\'on que deben aplicarse dentro de la base de datos, permitiendo a los usuarios para hacer cumplir la gobernabilidad a trav\'es de los datos, manteniendo al mismo tiempo las ventajas de agilidad de un esquema din\'amico.
+Aun as\'i, hemos llegado a un punto en que seguir usando bases de datos relacionales para todos los casos es simplemente inviable. Existen varios problemas con los RDBMS actuales que pueden suponer una seria limitante para la construcci\'on de aplicaciones. Estos problemas son en gran medida el motivo por el que surgi\'o el movimiento NoSQL \cite{banker2011}.
+
+
+
+
+
+
+
+
+\section{Metodología}
+
+La metodolog\'ia se basa trav\'es de etapas que gradualmente se cumplir\'an mismas que se procede a la b\'usqueda y recopilaci\'on de las fuentes de informaci\'on en multimedia como tambi\'en el manejo de la plataforma de trabajo que los datos de secuencia en bruto est\'an alojados bajo el esquema que se revisan especialmente sobre el tema de Genomic Data Commons Data Portal. Y las fuentes bibliograf\'ias, art\'iculos que tambi\'en son relevantes para el desarrollo del Software, en la figura 2 se muestra la estructura a trabajar.
+
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=13cm]{DiagMeto.jpeg}
+\caption{Diagrama de flujo de trabajo de software a trabajar.}
+\end{figure}
+
+
+Vamos a basarnos en el desarrollo que se fue formando heur\'isticamente en etapas que se mencionan a continuaci\'on: 
+
+\begin{enumerate}
+
+
+
+
+
+\item Revisi\'on de bibliograf\'ias, art\'iculos y trabajos especiales sobre el tema.
+
+
+
+\item Se mencionan las formas de descarga que en el portal de GDC Data Commons y los usuarios pueden elegir a su necesidades la formaa de descarga.
+
+
+Nota: El trabajo que se realiz\'a est\'a desarrollado en el sistema operativo GNU/Linux, Si existe alg\'un problema con su sistema operativo revisar los manuales que el soporte ofrece a su sistema. 
+
+\begin{enumerate}
+
+
+		\item Descargar datos usando un archivo de manifiesto.
+		\\
+	
+Una forma conveniente de descargar varios archivos desde el GDC es usar un archivo de manifiesto generado por el Portal de datos de GDC. Despu\'es de generar un archivo de manifiesto, inicie la descarga utilizando la herramienta de transferencia de datos GDC suministrando la opci\'on -m o --manifiesto, seguido de la ubicaci\'on y el nombre del archivo de manifiesto. Los usuarios de OS X pueden arrastrar y soltar el archivo de manifiesto en la Terminal para proporcionar su ubicaci\'on.
+
+
+		\item Descargar datos usando UUID de archivos GDC.
+		\\
+	
+La herramienta de transferencia de datos GDC tambi\'en admite la descarga de uno o m\'as archivos individuales utilizando UUID (s) en lugar de un archivo de manifiesto. Para hacer esto, ingrese los UUID (s) despu\'es del comando de descarga.
+
+		\item Descargar datos de acceso controlado.
+		\\
+	
+Se requiere un token para autenticar el usuario para descargar datos de acceso controlado desde GDC. Los tokens pueden obtenerse en el Portal de datos en GDC. Una vez descargado, el archivo token se puede pasar a la herramienta de transferencia de datos GDC usando la opci\'on -t o --token-file.
+
+
+		\item Descarga obteniendo un archivo de manifiesto para la descarga de datos en forma manual.
+		\\
+	
+	
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=8cm]{descar.png}
+\caption{Imagen de descarga de un rachivo de manifiesto en forma manual.}
+\end{figure}
+	
+	
+La herramienta de transferencia de datos de GDC admite la descarga de m\'ultiples archivos enumerados en un archivo de manifiesto de GDC. Los archivos manifiestos se pueden generar y descargar directamente desde el Portal de datos de GDC:
+Primero, seleccione los archivos de datos de inter\'es. Haga clic en el bot\'on Carro en la fila correspondiente al archivo deseado. El bot\'on se pondr\'a verde para indicar que el archivo ha sido seleccionado.
+
+
+\end{enumerate}
+
+Una vez que se hayan seleccionado todos los archivos de inter\'es, haga clic en el bot\'on Carro en la esquina superior derecha. Esto abrir\'a la p\'agina del carro, que proporciona una descripci\'on general de todos los archivos seleccionados actualmente. Esta lista de archivos se puede descargar como un archivo de manifiesto haciendo clic en el bot\'on verde Descargar y seleccionando Manifiesto en el men\'u desplegable.
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=10cm]{pu.png}
+\caption{Imagen de lista de archivos a descargar.}
+\end{figure}
+
+
+
+
+La ultima forma de descarga fue la que seleccione para trabajar dado que las dem\'as formas son un poco m\'as complejas. Se obtuvier\'on los datos en formato de .xml ya que la plataforma cuenta con diferentes tipos de archivos, est\'a es por que se obtuvier\'on en forma general en un solo formato. 
+
+
+
+\item Para crear una base de datos del portal https://portal.gdc.cancer.gov/cart, que est\'a los archivos en .xml. Necesitamos convertirlos a .json para facilitar la carga de datos para esto hacemos una conversi\'on masiva de .xml a json. Para esto necesitamos aplicaciones que esten instaladas para que puedan correr en un mk.
+\\
+Verificar si ya tenemos instalados los programas requeridos y escribimos:
+
+\begin{itemize}
+
+\item[$*$]	 apt search xml etree
+\item[$*$]	 apt search python xml
+	
+\end{itemize}
+	
+ Instalamos.
+ 
+ 
+\begin{itemize}
+
+\item[$*$]	 pip install https://github.com/hay/xml2json/zipball/master
+\item[$*$]	 pip install --upgrade pip
+\item[$*$]	 sudo apt install python-pip ipython
+\item[$*$]	 sudo apt install 9base
+
+\end{itemize} 
+	
+	
+	
+La directorio que estamos utilizando para nuestro proyecto. Utilizamos un editor de textos, el archivo con el nombre de mkfile. As\'i, que quedar\'ia para la conversi\'on en nuestro directorio de mk.
+\\
+\\	
+Nota: Se debe ubicar en la directorio que se tiene los archivos .xml, el directorio bin que dentro debe contener su README.md y su targets, un index.php con su README.md y el mk. Para hacer funcionar esto nos vamos al directorio .bashrc.
+\\
+\\		
+Guardamos esto, y nos indica que busqu\'e el mk que existan en nuestro sistema operativo.
+Como queremos hacer la conversi\'on masivo, tambi\'en en el directorio que estamos utilizando se crea otra directorio con el nombre de bin/ y ah\'i creamos un archivo targets. Para que sea utilizado con la aplicaci\'on xargs. Ya con esto damos permisos y corremos la aplicaci\'on en terminal.
+	
+\item Ya obtenido los datos en .json. Ahora se hace la carga de la Base de Datos a nuestro GBD (Gestor de Base de Datos) que en nuestro caso ocupamos MongoDB. En este paso es utilizado desde terminal un c\'odigo que hace llamar todos los archivos que se encuentran en nuestro directorio para importar a la base de datos ya destinada.
+
+
+Si tiene alguna duda para hacer la importaci\'on o instalaci\'on consultar a la pagina https://docs.mongodb.com/manual/. En este caso la importaci\'on se hace masiva para agilizar el tiempo de carga de datos a la base de datos.
+
+
+\item Ya obtenida la base de datos hacemos unas consultas de ejercicio. Ahora podemos crear nuestra primera conexi\'on a la base de datos MongoDB con Java, nos vamos a conectar con la configuraci\'on por defecto que es en localhost y el puerto 27017. Para conectar con la base de datos simplemente utilizamos el m\'etodo getDatabase(“test”), donde test es el nombre de la base de datos que estamos utilizando como ejemplo de una conexi\'on. Ahora, nada m\'as depender del programador para toda la visualizaci\'on y los detalles que requiere el usuario y hacer las pruebas para la aplicaci\'on.
+
+
+	
+\end{enumerate}		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+\renewcommand{\refname}{Referencias Bibliogr\'aficas}
+
+
+
+\bibliographystyle{acm} 
+\bibliography{biblio}
+
+
+
+\end{document}

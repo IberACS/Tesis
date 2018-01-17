@@ -1,0 +1,19 @@
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{3}
+\contentsline {subsection}{\numberline {1.1}Plantiamiento Del Problema}{3}
+\contentsline {subsection}{\numberline {1.2}Justificaci\IeC {\'o}n}{4}
+\contentsline {subsection}{\numberline {1.3}Delimitaci\IeC {\'o}n}{5}
+\contentsline {subsection}{\numberline {1.4}Hip\'otesis}{5}
+\contentsline {subsection}{\numberline {1.5}Objetovos (General Y Espec\'ificos)}{5}
+\contentsline {subsubsection}{\numberline {1.5.1}Objetivo General}{5}
+\contentsline {subsubsection}{\numberline {1.5.2}Objetivos Espec\'ificos}{5}
+\contentsline {subsection}{\numberline {1.6}Aportaciones De La Tesis}{6}
+\contentsline {subsection}{\numberline {1.7}Organizaci\IeC {\'o}n De La Tesis}{6}
+\contentsline {section}{\numberline {2}Estado Del Arte (Antecedentes)}{6}
+\contentsline {subsection}{\numberline {2.1}Estado Actual Del C\IeC {\'a}ncer De Mama}{6}
+\contentsline {subsection}{\numberline {2.2}Integraci\IeC {\'o}n Sem\IeC {\'a}ntica Y Estandarizaci\IeC {\'o}n De Datos Cl\IeC {\'\i }nicos Basada En Arquetipos}{8}
+\contentsline {section}{\numberline {3}Marco Te\IeC {\'o}rico}{8}
+\contentsline {subsection}{\numberline {3.1}Ingenier\IeC {\'\i }a De Software}{9}
+\contentsline {subsection}{\numberline {3.2}Metodolog\IeC {\'\i }a Orientada A Objetos}{9}
+\contentsline {subsection}{\numberline {3.3}Arquitectura Cliente-Servidor}{10}
+\contentsline {subsection}{\numberline {3.4}Modelo No Relacional (Nosql)}{11}
+\contentsline {section}{\numberline {4}Metodolog\IeC {\'\i }a}{12}
